@@ -1,1 +1,1 @@
-TP Web : Javascript et HTML5
+Practical Lab Session : MVC with Javascript and HTML5
