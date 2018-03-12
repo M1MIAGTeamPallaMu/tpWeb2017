@@ -1,15 +1,16 @@
 export class DnD{
+
     private _canvas;
     private _interactor;
-    public xInit : number;
-    public yInit : number;
-    public xFinal : number;
-    public yFinal : number;
+    private _xInit : number;
+    private _yInit : number;
+    private _xFinal : number;
+    private _yFinal : number;
     private _pressed : boolean;
 
     constructor (canvas, interactor?) {
-        this._canvas = canvas;
-        this._interactor = interactor;
+        this.canvas = canvas;
+        this.interactor = interactor;
     }
     initCoordinates() : void {
         this.xInit = 0;
@@ -19,30 +20,59 @@ export class DnD{
     }
 
     select(evt : {x, y}) : void {
-        this.xInit = DnD.getMousePosition(this._canvas, evt).x;
-        this.yInit = DnD.getMousePosition(this._canvas, evt).y;
-        this._pressed = true;
+        this.xInit = DnD.getMousePosition(this.canvas, evt).newX;
+        this.yInit = DnD.getMousePosition(this.canvas, evt).newY;
+        this.pressed = true;
     }
 
     move(evt : {x, y}) : void {
         if(this._pressed){
-            this.xFinal = DnD.getMousePosition(this._canvas, evt).x;
-            this.yFinal = DnD.getMousePosition(this._canvas, evt).y;
+            this._xFinal = DnD.getMousePosition(this.canvas, evt).newX;
+            this._yFinal = DnD.getMousePosition(this.canvas, evt).newY;
         }
     }
 
     release(evt : {x, y}) : void {
-        this.xFinal = DnD.getMousePosition(this._canvas, evt).x;
-        this.yFinal = DnD.getMousePosition(this._canvas, evt).y;
-        this._pressed = false;
+        this.xFinal = DnD.getMousePosition(this.canvas, evt).newX;
+        this.yFinal = DnD.getMousePosition(this.canvas, evt).newY;
+        this.pressed = false;
     }
 
     public static getMousePosition(canvas, evt: {x, y}){
         let rect = canvas.getBoundingClientRect();
         return {
-            x : evt.x - rect.left,
-            y : evt.y - rect.top
+            newX : evt.x - rect.left,
+            newY : evt.y - rect.top
         }
+    }
+
+    get yFinal(): number {
+        return this._yFinal;
+    }
+
+    set yFinal(value: number) {
+        this._yFinal = value;
+    }
+    get xFinal(): number {
+        return this._xFinal;
+    }
+
+    set xFinal(value: number) {
+        this._xFinal = value;
+    }
+    get yInit(): number {
+        return this._yInit;
+    }
+
+    set yInit(value: number) {
+        this._yInit = value;
+    }
+    get xInit(): number {
+        return this._xInit;
+    }
+
+    set xInit(value: number) {
+        this._xInit = value;
     }
 
     get canvas() {
@@ -68,5 +98,6 @@ export class DnD{
     set pressed(value: boolean) {
         this._pressed = value;
     }
+
 
 }
