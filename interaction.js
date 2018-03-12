@@ -1,23 +1,70 @@
-
-// La création d'un Dnd requière un canvas et un interacteur.
-// L'interacteur viendra dans un second temps donc ne vous en souciez pas au départ.
-function DnD(canvas, interactor) {
-	// Définir ici les attributs de la 'classe'
-
-	// Developper les 3 fonctions gérant les événements
-
-	// Associer les fonctions précédentes aux évènements du canvas.
-};
-
-
-// Place le point de l'événement evt relativement à la position du canvas.
-function getMousePosition(canvas, evt) {
-  var rect = canvas.getBoundingClientRect();
-  return {
-    x: evt.clientX - rect.left,
-    y: evt.clientY - rect.top
-  };
-};
-
-
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var DnD = /** @class */ (function () {
+    function DnD(canvas, interactor) {
+        this._canvas = canvas;
+        this._interactor = interactor;
+    }
+    DnD.prototype.initCoordinates = function () {
+        this.xInit = 0;
+        this.yInit = 0;
+        this.xFinal = 0;
+        this.yFinal = 0;
+    };
+    DnD.prototype.select = function (evt) {
+        this.xInit = DnD.getMousePosition(this._canvas, evt).x;
+        this.yInit = DnD.getMousePosition(this._canvas, evt).y;
+        this._pressed = true;
+    };
+    DnD.prototype.move = function (evt) {
+        if (this._pressed) {
+            this.xFinal = DnD.getMousePosition(this._canvas, evt).x;
+            this.yFinal = DnD.getMousePosition(this._canvas, evt).y;
+        }
+    };
+    DnD.prototype.release = function (evt) {
+        this.xFinal = DnD.getMousePosition(this._canvas, evt).x;
+        this.yFinal = DnD.getMousePosition(this._canvas, evt).y;
+        this._pressed = false;
+    };
+    DnD.getMousePosition = function (canvas, evt) {
+        var rect = canvas.getBoundingClientRect();
+        return {
+            x: evt.x - rect.left,
+            y: evt.y - rect.top
+        };
+    };
+    Object.defineProperty(DnD.prototype, "canvas", {
+        get: function () {
+            return this._canvas;
+        },
+        set: function (value) {
+            this._canvas = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DnD.prototype, "interactor", {
+        get: function () {
+            return this._interactor;
+        },
+        set: function (value) {
+            this._interactor = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DnD.prototype, "pressed", {
+        get: function () {
+            return this._pressed;
+        },
+        set: function (value) {
+            this._pressed = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return DnD;
+}());
+exports.DnD = DnD;
+//# sourceMappingURL=interaction.js.map
